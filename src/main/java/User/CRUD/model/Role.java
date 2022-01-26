@@ -3,6 +3,7 @@ package User.CRUD.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -79,4 +80,5 @@ public class Role implements GrantedAuthority {
         result = 31 * result + roleName.hashCode();
         return result;
     }
+
 }

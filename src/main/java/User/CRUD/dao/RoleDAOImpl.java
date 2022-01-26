@@ -6,14 +6,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 @Repository
 public class RoleDAOImpl implements RoleDAO {
 
 
-    @PersistenceContext
+    @PersistenceContext//(type = PersistenceContextType.EXTENDED)
     private EntityManager em;
+
 
     @Override
     public Role getRoleByName(String name) {
@@ -35,7 +37,7 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    public List<Role> allRoles() {
+    public List <Role> allRoles() {
         return em
                 .createQuery("from Role", Role.class)
                 .getResultList();

@@ -3,6 +3,7 @@ package User.CRUD.dao;
 import User.CRUD.model.Role;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RoleDAO {
 
@@ -12,5 +13,5 @@ public interface RoleDAO {
 
     Role getRoleById(Long id);
 
-    List<Role> allRoles();
+    List <Role> allRoles();
 }

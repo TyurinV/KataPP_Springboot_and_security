@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
-@Transactional
 public class RoleServiceImpl implements RoleService {
 
     private final RoleDAO roleDAO;
@@ -20,22 +20,28 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Role getRoleByName(String name) {
         return this.roleDAO.getRoleByName(name);
     }
 
     @Override
+    @Transactional
     public void addRole(Role role) {
         roleDAO.addRole(role);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Role getRoleById(Long id) {
         return this.roleDAO.getRoleById(id);
     }
 
     @Override
-    public List<Role> allRoles() {
+    @Transactional(readOnly = true)
+    public List <Role> getAllRoles() {
         return this.roleDAO.allRoles();
     }
+
+
 }

@@ -1,13 +1,12 @@
 package User.CRUD.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -16,7 +15,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id; //Интеджер нужно и нужен long
 
     @Column(name = "firstName", unique = true)
     private String firstName;
@@ -33,7 +32,8 @@ public class User implements UserDetails {
     @Column(name = "smoker", nullable = false)
     private boolean smoker;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+//    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "user_role",
             joinColumns = { @JoinColumn(name = "user_id") },
@@ -54,11 +54,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -154,28 +154,20 @@ public class User implements UserDetails {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
 
         User user = (User) o;
 
-        if (id != user.id) return false;
-        if (sex != user.sex) return false;
-        if (smoker != user.smoker) return false;
+        if (!id.equals(user.id)) return false;
         if (!firstName.equals(user.firstName)) return false;
-        if (!password.equals(user.password)) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        return roles != null ? roles.equals(user.roles) : user.roles == null;
+        return password.equals(user.password);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + password.hashCode();
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (int) sex;
-        result = 31 * result + (smoker ? 1 : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
 }

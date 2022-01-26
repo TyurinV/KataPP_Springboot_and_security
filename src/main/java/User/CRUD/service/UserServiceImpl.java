@@ -4,8 +4,14 @@ import User.CRUD.dao.UserDAO;
 import User.CRUD.dao.UserDAOImpl;
 import User.CRUD.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,16 +19,22 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
+
+    private final UserDAO userDAO;
+
 
     @Autowired
-    private UserDAO userDAO;
+    public UserServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+
+    }
 
 
     @Override
-    @Transactional
-    public List<User> allUsers() {
-        return userDAO.allUsers();
+    @Transactional(readOnly = true)
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
     }
 
 
@@ -35,8 +47,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void remove(User user) {
-        userDAO.remove(user);
+    public void remove(Long id) {
+        userDAO.remove(id);
     }
 
 
@@ -48,14 +60,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
-    public User getById(int id) {
+    @Transactional(readOnly = true)
+    public User getById(Long id) {
         return userDAO.getById(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return  userDAO.getUserByName(userName);
+        return userDAO.getUserByName(userName);
     }
+
 }
