@@ -1,9 +1,9 @@
-package User.CRUD.config.security;
+package User.CRUD;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages={"User.CRUD.config"})
+@SpringBootApplication
 public class ApplicationStarter {
     public static void main(String[] args) {
         SpringApplication.run(ApplicationStarter.class, args);

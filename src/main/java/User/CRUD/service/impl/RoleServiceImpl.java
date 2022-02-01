@@ -1,6 +1,7 @@
-package User.CRUD.service;
+package User.CRUD.service.impl;
 import User.CRUD.model.Role;
 import User.CRUD.repositories.RoleRepository;
+import User.CRUD.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRoleByName(String name) {
-        return this.roleRepository.findRoleByName(name);
+        return this.roleRepository.getRoleByName(name);
     }
 
     @Override

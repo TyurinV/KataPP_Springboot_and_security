@@ -17,13 +17,13 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id; //Интеджер нужно и нужен long
 
-    @Column(name = "firstName", unique = true)
+    @Column(name = "firstname", unique = true)
     private String firstName;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "lastName")
+    @Column(name = "lastname")
     private String lastName;
 
     @Column(name = "sex", length = 1, columnDefinition = "CHAR")

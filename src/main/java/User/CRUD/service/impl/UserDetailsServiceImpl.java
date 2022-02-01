@@ -1,4 +1,4 @@
-package User.CRUD.service;
+package User.CRUD.service.impl;
 
 import User.CRUD.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
