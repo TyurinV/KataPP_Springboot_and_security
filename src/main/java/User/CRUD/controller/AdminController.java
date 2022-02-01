@@ -47,7 +47,7 @@ public class AdminController {
 
     @GetMapping(value = "/edit/{id}")
     public String editPage(@PathVariable Long id, Model model) {
-        User user = userService.getById(id);
+        User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "edit";
     }
@@ -55,9 +55,9 @@ public class AdminController {
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute("user") User user, @RequestParam(required = false) String roleAdmin) { // массив айдишников
         Set<Role> roles = new HashSet<>();
-        roles.add(roleService.getRoleById(2l));
+        roles.add(roleService.getRoleByName("ROLE_ADMIN"));
         if (roleAdmin != null) {
-            roles.add(roleService.getRoleById(1l));
+            roles.add(roleService.getRoleByName("ROLE_USER"));
         }
         user.setRoles(roles);
         userService.edit(user);
@@ -83,9 +83,9 @@ public class AdminController {
     public String addUser(@ModelAttribute("user") User user, @RequestParam(required = false) String roleAdmin) {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         Set<Role> roles = new HashSet<>();
-        roles.add(roleService.getRoleById(2l));
+        roles.add(roleService.getRoleByName("ROLE_ADMIN"));
         if (roleAdmin != null) {
-            roles.add(roleService.getRoleById(1l));
+            roles.add(roleService.getRoleByName("ROLE_USER"));
         }
         user.setRoles(roles);
         user.setPassword(hashedPassword);
